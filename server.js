@@ -3,14 +3,14 @@ var http = require('http'),
 	url = require('url')
 	port = 8888
 
-function start(route) {
+function start(route, handle) {
 
 	function onRequest(req, res) {
 		
 		var pathname = url.parse(req.url).pathname
 		if (pathname !== '/favicon.ico') {
 			console.log('Received request for ' + pathname)			
-			route(pathname)
+			route(pathname, handle)
 		}
 
 		res.writeHead(200, {'Content-Type':'text/plain'})
