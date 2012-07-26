@@ -8,13 +8,14 @@ function start(route, handle) {
 	function onRequest(req, res) {
 		
 		var pathname = url.parse(req.url).pathname
+		var content = ''
 		if (pathname !== '/favicon.ico') {
 			console.log('Received request for ' + pathname)			
-			route(pathname, handle)
+			content = route(pathname, handle)
 		}
 
 		res.writeHead(200, {'Content-Type':'text/plain'})
-		res.write('First ever module')
+		res.write('Content = ' + content)
 		res.end()
 	}
 
