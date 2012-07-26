@@ -1,15 +1,17 @@
 
+var exec = require('child_process').exec,
+	child
+
+
 function start() {
-	log('Request handler "start" was called, sleep ten seconds...')
+	log('Request handler "start" was called')
+	var content = ''
 
-	function sleep(millisecs) {
-		var start = new Date().getTime()
-		while (new Date().getTime() < start + millisecs);
-	}
+	exec('ls -lah', function(error, stdout, stderr) {
+		content = stdout
+	})
 
-	sleep(10000)
-	log('Sleep has ended')
-	return 'Hello Start'
+	return content
 }
 
 function upload() {
