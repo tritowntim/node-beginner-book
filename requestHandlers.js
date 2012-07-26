@@ -1,22 +1,22 @@
 
-var exec = require('child_process').exec,
-	child
+var exec = require('child_process').exec
 
-
-function start() {
+function start(res) {
 	log('Request handler "start" was called')
-	var content = ''
 
 	exec('ls -lah', function(error, stdout, stderr) {
-		content = stdout
+		console.log(stdout)
+		res.writeHead(200, {'Content-Type' : 'text/plain'})
+		res.write(stdout)
+		res.end()
 	})
 
-	return content
 }
 
-function upload() {
-	log('Request handler "upload" was called.')
-	return 'Hello Upload'
+function upload(res) {
+		res.writeHead(200, {'Content-Type' : 'text/plain'})
+		res.write('Request handler "upload" was called')
+		res.end()
 }
 
 function log(txt) {

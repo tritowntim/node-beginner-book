@@ -11,12 +11,8 @@ function start(route, handle) {
 		var content = ''
 		if (pathname !== '/favicon.ico') {
 			console.log('Received request for ' + pathname)			
-			content = route(pathname, handle)
+			content = route(pathname, handle, res)
 		}
-
-		res.writeHead(200, {'Content-Type':'text/plain'})
-		res.write('Content = ' + content)
-		res.end()
 	}
 
 	http.createServer(onRequest).listen(port)
