@@ -1,24 +1,34 @@
 
-var exec = require('child_process').exec
+var querystring = require('querystring')
 
-function start(res) {
+function start(res, postData) {
 	log('START begin')
 
-	exec('find /',
-		{timeout: 20000, maxBuffer: 20000 * 1024},
-		function(error, stdout, stderr) {
-			res.writeHead(200, {'Content-Type' : 'text/plain'})
-			res.write(stdout)
+var body = '<html>'+
+    '<head>'+
+    '<meta http-equiv="Content-Type" content="text/html; '+
+    'charset=UTF-8" />'+
+    '</head>'+
+    '<body>'+
+    '<form action="/upload" method="post">'+
+    '<textarea name="text" rows="20" cols="60"></textarea>'+
+    '<input type="submit" value="Submit text" />'+
+    '</form>'+
+    '</body>'+
+    '</html>';
+
+			res.writeHead(200, {'Content-Type' : 'text/html'})
+			res.write(body)
 			res.end()
 			log('START end')
-		})
 
 }
 
-function upload(res) {
+function upload(res, postData) {
 		log('UPLOAD begin')
-		res.writeHead(200, {'Content-Type' : 'text/plain'})
-		res.write('Request handler "upload" was called')
+		res.writeHead(200, {'Content-Type' : 'text/html'})
+		res.write('Thank you for uploading this: <br/>' + querystring.parse(postData).text)
+		console.log(postData)
 		res.end()
 		log('UPLOAD end')
 }

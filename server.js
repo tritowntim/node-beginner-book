@@ -9,10 +9,19 @@ function start(route, handle) {
 		
 		var pathname = url.parse(req.url).pathname
 		var content = ''
-		if (pathname !== '/favicon.ico') {
-			console.log('Received request for ' + pathname)			
-			content = route(pathname, handle, res)
-		}
+		var postData = ''
+
+		req.on('data', function(postDataChunk) {
+			postData += postDataChunk
+			console.log('Received POST data chunk')
+		})
+
+		req.on('end', function() {
+			if (pathname !== '/favicon.ico') {
+				route(pathname, handle, res, postData)
+			}
+		})
+
 	}
 
 	http.createServer(onRequest).listen(port)
